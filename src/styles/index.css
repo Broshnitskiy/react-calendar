@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  color: #f5fed0;
+}
+
+.MuiDrawer-paper {
+  background-color: #333;
+  color: white;
+}
+
+.MuiListItemIcon-root {
+  color: white;
+}

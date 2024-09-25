@@ -4,6 +4,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import EventModal from "../modal";
 import moment from "moment";
 import { nanoid } from "nanoid";
+import toast from "react-hot-toast";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
@@ -38,7 +39,6 @@ export default function BigCalendar() {
     };
     setEventData(data);
     setOriginalEventData(data);
-
     setSelectedEvent(event);
     setIsEditMode(true);
     setOpenModal(true);
@@ -54,12 +54,14 @@ export default function BigCalendar() {
     } else {
       setMyEvents((prev) => [...prev, { id: nanoid(), ...eventData }]);
     }
+    toast.success("Well done!");
     setOpenModal(false);
   }, [eventData, isEditMode, selectedEvent]);
 
   const handleDeleteEvent = useCallback(() => {
     setMyEvents((prev) => prev.filter((ev) => ev.id !== selectedEvent.id));
     setOpenModal(false);
+    toast.success("Deleted");
   }, [selectedEvent]);
 
   const moveEvent = useCallback(
@@ -104,34 +106,34 @@ export default function BigCalendar() {
   const defaultDate = useMemo(() => new Date(), []);
 
   return (
-    <>
-      <div style={{ height: 600, width: "100vw" }}>
-        <DragAndDropCalendar
-          defaultDate={defaultDate}
-          defaultView={Views.MONTH}
-          events={myEvents}
-          localizer={localizer}
-          onEventDrop={moveEvent}
-          onEventResize={resizeEvent}
-          onSelectEvent={handleSelectEvent}
-          onSelectSlot={handleSelectSlot}
-          eventPropGetter={eventStyleGetter}
-          selectable
-          popup
-          resizable
-        />
+    <div>
+      <h1>Calendar</h1>
+      <DragAndDropCalendar
+        defaultDate={defaultDate}
+        defaultView={Views.MONTH}
+        events={myEvents}
+        localizer={localizer}
+        onEventDrop={moveEvent}
+        onEventResize={resizeEvent}
+        onSelectEvent={handleSelectEvent}
+        onSelectSlot={handleSelectSlot}
+        eventPropGetter={eventStyleGetter}
+        selectable
+        popup
+        resizable
+        style={{ height: 560 }}
+      />
 
-        <EventModal
-          open={openModal}
-          eventData={eventData}
-          originalEventData={originalEventData}
-          handleClose={() => setOpenModal(false)}
-          handleSave={handleSaveEvent}
-          handleDelete={handleDeleteEvent}
-          setEventData={setEventData}
-          isEditMode={isEditMode}
-        />
-      </div>
-    </>
+      <EventModal
+        open={openModal}
+        eventData={eventData}
+        originalEventData={originalEventData}
+        handleClose={() => setOpenModal(false)}
+        handleSave={handleSaveEvent}
+        handleDelete={handleDeleteEvent}
+        setEventData={setEventData}
+        isEditMode={isEditMode}
+      />
+    </div>
   );
 }
