@@ -39,7 +39,7 @@ const Header = () => {
           <Typography variant="h6" sx={{ ml: 2 }}>
             John Doe
           </Typography>
-          <Avatar sx={{ ml: 2 }} src="/path-to-avatar.jpg" alt="User Avatar" />
+          <Avatar sx={{ ml: 2 }} src="" alt="User Avatar" />
         </Box>
       </Toolbar>
     </AppBar>
